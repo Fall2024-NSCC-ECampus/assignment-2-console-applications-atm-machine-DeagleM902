@@ -2,6 +2,7 @@
 // Created by mattd on 2024-10-24.
 //
 
+#include <iomanip>
 #include <iostream>
 #include <map>
 using namespace std;
@@ -39,8 +40,7 @@ void printMainMenu() {
     cout << "d -> Deposit Money" << endl;
     cout << "w -> Withdraw Money" << endl;
     cout << "r -> Request Balance" << endl;
-    cout << "l -> Logout" << endl;
-    cout << "q -> Logout and Quit" << endl;
+    cout << "q -> Quit" << endl;
     cout << "> ";
 }
 
@@ -69,9 +69,9 @@ void start() {
 //TODO - PART B - "Database" file to read/write accounts
 void createAccount() {
     string id, password;
-    cout << "Please create your user id:" << endl;
+    cout << "Please create your user id: " << endl;
     cin >> id;
-    cout << "Please enter your PIN:" << endl;
+    cout << "Please enter your PIN: " << endl;
     cin >> password;
 
     accounts[id] = password;
@@ -81,5 +81,50 @@ void createAccount() {
 //Handles login, actions once logged in
 //TODO - PART B - Move logic to align with OOP, read file for login
 void login() {
-    // PHASE 2
+    string id, password;
+    cout << "Please create your user id: " << endl;
+    cin >> id;
+    cout << "Please enter your PIN: " << endl;
+    cin >> password;
+
+    if (accounts.find(id) != accounts.end() && accounts[id] == password) {
+        cout << "Access Granted!" << endl;
+        isLoggedIn = true;
+        currentUser = id;
+
+        do {
+            printMainMenu();
+            cin >> menuInput;
+            switch (menuInput) {
+                case 'd':
+                    double depositAmount;
+                    cout << "Please enter your deposit amount: " << endl;
+                    cin >> depositAmount;
+                    balance += depositAmount;
+                    cout << "Your balance is now: $" << fixed << setprecision(2) << balance << endl;
+                    break;
+                case 'w':
+                    double withdrawAmount;
+                    cout << "Please enter your withdrawal amount: " << endl;
+                    cin >> withdrawAmount;
+                    if (withdrawAmount <= balance) {
+                        balance -= withdrawAmount;
+                        cout << "Your balance is now: $" << fixed << setprecision(2) << balance << endl;
+                    } else {
+                        cout << "Insufficient funds." << endl;
+                    }
+                    break;
+                case 'r':
+                    cout << "Your balance is: $" << fixed << setprecision(2) << balance << endl;
+                    break;
+                case 'q':
+                    cout << "Goodbye!" << endl;
+                    exit(0);
+                default:
+                    cout << "Invalid option. Please try again." << endl;
+            }
+        } while (menuInput != 'q');
+    } else {
+        cout << "******** LOGIN FAILED! ********" << endl;
+    }
 }
