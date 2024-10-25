@@ -19,6 +19,7 @@ void createAccount();
 char menuInput;
 
 //For part B, create a User struct to store the PIN and balance. change this to "map<string, User> accounts"
+//For the map - a unique ID is needed -> error handling in user creation. Or use a different list/set/etc
 map<string, string> accounts;
 double balance;
 bool isLoggedIn = false;
@@ -32,7 +33,7 @@ int main() {
 }
 
 void printIntroMenu() {
-    cout << "Please select an option from the menu below:" << endl;
+    cout << "\nPlease select an option from the menu below:" << endl;
     cout << "l -> Login" << endl;
     cout << "c -> Create New Account" << endl;
     cout << "q -> Quit" << endl;
@@ -40,7 +41,7 @@ void printIntroMenu() {
 }
 
 void printMainMenu() {
-    cout << "Please select an option from the menu below:" << endl;
+    cout << "\nPlease select an option from the menu below:" << endl;
     cout << "d -> Deposit Money" << endl;
     cout << "w -> Withdraw Money" << endl;
     cout << "r -> Request Balance" << endl;
@@ -71,10 +72,10 @@ void start() {
 
 //Ideally, there should be a way to back out of account creation
 //Currently accepts a generic string input, regex / error handling will be added
-//TODO - PART B - "Database" file to read/write accounts (also needs the balance)
+//TODO - PART B - "Database" file to read/write accounts (also needs the balance) - User ID must be unique!!!
 void createAccount() {
     string id, password;
-    cout << "Please create your user id: ";
+    cout << "Please enter your user id: ";
     cin >> id;
     cout << "Please enter your PIN: ";
     cin >> password;
@@ -87,9 +88,9 @@ void createAccount() {
 //TODO - PART B - Move logic to align with OOP, read file for login
 void login() {
     string id, password;
-    cout << "Please create your user id: " << endl;
+    cout << "Please enter your user id: ";
     cin >> id;
-    cout << "Please enter your PIN: " << endl;
+    cout << "Please enter your PIN: ";
     cin >> password;
 
     if (accounts.find(id) != accounts.end() && accounts[id] == password) {
