@@ -13,8 +13,12 @@ void start();
 void login();
 void createAccount();
 
+//TODO - For part B, use header files, persistent user data, regex for ID and PIN
+
 //Global variables
 char menuInput;
+
+//For part B, create a User struct to store the PIN and balance. change this to "map<string, User> accounts"
 map<string, string> accounts;
 double balance;
 bool isLoggedIn = false;
@@ -66,12 +70,13 @@ void start() {
 }
 
 //Ideally, there should be a way to back out of account creation
-//TODO - PART B - "Database" file to read/write accounts
+//Currently accepts a generic string input, regex / error handling will be added
+//TODO - PART B - "Database" file to read/write accounts (also needs the balance)
 void createAccount() {
     string id, password;
-    cout << "Please create your user id: " << endl;
+    cout << "Please create your user id: ";
     cin >> id;
-    cout << "Please enter your PIN: " << endl;
+    cout << "Please enter your PIN: ";
     cin >> password;
 
     accounts[id] = password;
@@ -95,17 +100,18 @@ void login() {
         do {
             printMainMenu();
             cin >> menuInput;
+            //Divide logic, each case should call its respective function
             switch (menuInput) {
                 case 'd':
                     double depositAmount;
-                    cout << "Please enter your deposit amount: " << endl;
+                    cout << "Please enter your deposit amount: ";
                     cin >> depositAmount;
                     balance += depositAmount;
                     cout << "Your balance is now: $" << fixed << setprecision(2) << balance << endl;
                     break;
                 case 'w':
                     double withdrawAmount;
-                    cout << "Please enter your withdrawal amount: " << endl;
+                    cout << "Please enter your withdrawal amount: ";
                     cin >> withdrawAmount;
                     if (withdrawAmount <= balance) {
                         balance -= withdrawAmount;
