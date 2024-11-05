@@ -16,7 +16,7 @@ public:
     bool createAccount(const string& id, const string& pin);
     bool verifyLogin(const string& id, const string& pin);
     User& getUser(const string& id);
-    void saveAccounts();
+    void saveAccounts() const;
     void loadAccounts();
 
 private:
