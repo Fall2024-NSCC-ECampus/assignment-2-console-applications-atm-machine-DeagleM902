@@ -4,4 +4,9 @@ project(assignment_2_console_applications_atm_machine_DeagleM902)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(assignment_2_console_applications_atm_machine_DeagleM902
-    ATMMachine.cpp)
+        main.cpp
+        ATMMachine.h
+        ATMMachine.cpp
+        AccountManager.h
+        AccountManager.cpp
+        User.h)
