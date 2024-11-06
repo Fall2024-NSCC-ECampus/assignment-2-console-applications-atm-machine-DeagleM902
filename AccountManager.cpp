@@ -5,6 +5,7 @@
 #include "AccountManager.h"
 #include <fstream>
 #include <iostream>
+#include <regex>
 
 using namespace std;
 
@@ -14,6 +15,10 @@ AccountManager::AccountManager() {
 
 //Check if account number exists already
 bool AccountManager::createAccount(const string& id, const string& pin) {
+    if (!isNumeric(id) || !isNumeric(pin)) {
+        cout << "User ID and PIN must contain only numbers (0-9)." << endl;
+        return false;
+    }
     if (accounts.find(id) != accounts.end()) {
         cout << "User already exists." << endl;
         return false;
@@ -25,6 +30,10 @@ bool AccountManager::createAccount(const string& id, const string& pin) {
 
 //Check if account number exists and pin is correct
 bool AccountManager::verifyLogin(const string& id, const string& pin) {
+    if (!isNumeric(id) || !isNumeric(pin)) {
+        cout << "User ID and PIN must contain only numbers (0-9)." << endl;
+        return false;
+    }
     return accounts.find(id) != accounts.end() && accounts[id].pin == pin;
 }
 
@@ -59,5 +68,10 @@ void AccountManager::loadAccounts() {
     } else {
         cout << "Error occurred while loading accounts. Starting with empty list." << endl;
     }
+}
+
+//To check if given input consists of numbers only
+bool AccountManager::isNumeric(const string &string) {
+    return regex_match(string, regex("\\d+"));
 }
 

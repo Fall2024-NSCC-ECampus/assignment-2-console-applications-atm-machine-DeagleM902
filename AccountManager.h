@@ -18,6 +18,7 @@ public:
     User& getUser(const string& id);
     void saveAccounts() const;
     void loadAccounts();
+    static bool isNumeric(const string &string);
 
 private:
     map<string, User> accounts;

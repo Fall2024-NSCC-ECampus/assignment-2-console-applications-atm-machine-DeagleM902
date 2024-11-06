@@ -46,6 +46,7 @@ void ATMMachine::printMainMenu() {
     cout << "d -> Deposit Money" << endl;
     cout << "w -> Withdraw Money" << endl;
     cout << "r -> Request Balance" << endl;
+    cout << "l -> Logout" << endl;
     cout << "q -> Quit" << endl;
     cout << "> ";
 }
@@ -81,8 +82,12 @@ void ATMMachine::login() {
                 case 'r':
                     checkBalance();
                     break;
+                case 'l': //Ideally this would clear the screen to hide previous information
+                    isLoggedIn = false;
+                    accountManager.saveAccounts();
+                    cout << "Logging out." << endl;
+                    break;
                 case 'q':
-                    //This exits the program entirely, could be reworked to only log out of current account
                     isLoggedIn = false;
                     accountManager.saveAccounts();
                     cout << "Goodbye!" << endl;
@@ -90,7 +95,7 @@ void ATMMachine::login() {
                 default:
                     cout << "Invalid option. Please try again." << endl;
             }
-        } while (menuInput != 'q' && isLoggedIn); //isLoggedIn is redundant, kept in case simple logout is desired
+        } while (menuInput != 'q' && isLoggedIn);
     } else {
         cout << "******** LOGIN FAILED! ********" << endl;
     }
@@ -104,8 +109,7 @@ void ATMMachine::createAccount() {
     cout << "Enter your PIN: ";
     cin >> pin;
     accountManager.createAccount(id, pin);
-    accountManager.saveAccounts();
-    //TODO - check if this works to save, then loads the info at intro menu
+    accountManager.saveAccounts(); //Likely redundant, as quitting correctly will save user info
 }
 
 void ATMMachine::deposit(double amount) {
