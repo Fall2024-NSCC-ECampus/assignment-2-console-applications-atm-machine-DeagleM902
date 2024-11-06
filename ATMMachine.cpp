@@ -12,6 +12,7 @@ using namespace std;
 
 ATMMachine::ATMMachine() : isLoggedIn(false){}
 
+//Handles the intro menu
 void ATMMachine::start() {
     char menuInput;
     do {
@@ -64,6 +65,7 @@ void ATMMachine::printMainMenu() {
     cout << "> ";
 }
 
+//Handles the login process and the menu once logged in.
 void ATMMachine::login() {
     string id, pin;
     cout << "Enter your user ID: ";
@@ -80,6 +82,7 @@ void ATMMachine::login() {
             printMainMenu();
             cin >> menuInput;
 
+            //Ignore all but the first character entered
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             switch (menuInput) {
@@ -137,9 +140,10 @@ void ATMMachine::deposit(double amount) {
         return;
     }
     accountManager.getUser(currentUser).balance += amount;
-    cout << "Deposited: $" << amount << "\nYour balance is now: $" << accountManager.getUser(currentUser).balance << endl;
+    cout << "Deposited: $" << fixed << setprecision(2) << amount << "\nYour balance is now: $" << fixed << setprecision(2) << accountManager.getUser(currentUser).balance << endl;
 }
 
+//Withdraw from given account, cannot withdraw more than the balance indicates.
 void ATMMachine::withdraw(double amount) {
     //Clear the input buffer if there is an error.
     if (cin.fail() || amount <= 0) {
@@ -153,7 +157,7 @@ void ATMMachine::withdraw(double amount) {
         return;
     }
     accountManager.getUser(currentUser).balance -= amount;
-    cout << "Withdrew: $" << amount << "\nYour balance is now: $" << accountManager.getUser(currentUser).balance << endl;
+    cout << "Withdrew: $" << fixed << setprecision(2) << amount << "\nYour balance is now: $" << fixed << setprecision(2) << accountManager.getUser(currentUser).balance << endl;
 }
 
 void ATMMachine::checkBalance() {
