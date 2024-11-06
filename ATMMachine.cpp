@@ -6,6 +6,7 @@
 
 #include <iomanip>
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
@@ -16,6 +17,18 @@ void ATMMachine::start() {
     do {
         printIntroMenu();
         cin >> menuInput;
+
+        //Ignore all but the first character entered
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        //The other input error handling does not work here
+        // if (cin.fail()) {
+        //     cin.clear();
+        //     cin.ignore(1000, '\n');
+        //     cout << "Invalid input. Please enter 'l', 'c', or 'q'." << endl;
+        //     continue;
+        // }
+
         switch (menuInput) {
             case 'l':
                 login();
@@ -66,6 +79,9 @@ void ATMMachine::login() {
         do {
             printMainMenu();
             cin >> menuInput;
+
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
             switch (menuInput) {
                 case 'd':
                     double depositAmount;
@@ -113,25 +129,31 @@ void ATMMachine::createAccount() {
 }
 
 void ATMMachine::deposit(double amount) {
-    if (amount > 0) {
-        accountManager.getUser(currentUser).balance += amount;
-        cout << "Deposited " << amount << "\nYour balance is now: $" << accountManager.getUser(currentUser).balance << endl;
-    } else {
-        cout << "Deposit amount must be above 0." << endl;
+    //Clear the input buffer if there is an error.
+    if (cin.fail() || amount <= 0) {
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cout << "Invalid input. Deposit amount must be above 0." << endl;
+        return;
     }
+    accountManager.getUser(currentUser).balance += amount;
+    cout << "Deposited: $" << amount << "\nYour balance is now: $" << accountManager.getUser(currentUser).balance << endl;
 }
 
 void ATMMachine::withdraw(double amount) {
-    if (amount > 0) {
-        if (amount < accountManager.getUser(currentUser).balance) {
-            accountManager.getUser(currentUser).balance -= amount;
-            cout << "Withdrew " << amount << "\nYour balance is now: $" << accountManager.getUser(currentUser).balance << endl;
-        } else {
-            cout << "Insufficient funds." << endl;
-        }
-    } else {
-        cout << "Withdraw amount must be above 0." << endl;
+    //Clear the input buffer if there is an error.
+    if (cin.fail() || amount <= 0) {
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cout << "Invalid input. Withdraw amount must be above 0." << endl;
+        return;
     }
+    if (amount > accountManager.getUser(currentUser).balance) {
+        cout << "Insufficient funds." << endl;
+        return;
+    }
+    accountManager.getUser(currentUser).balance -= amount;
+    cout << "Withdrew: $" << amount << "\nYour balance is now: $" << accountManager.getUser(currentUser).balance << endl;
 }
 
 void ATMMachine::checkBalance() {
