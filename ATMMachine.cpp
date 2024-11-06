@@ -111,7 +111,7 @@ void ATMMachine::createAccount() {
 void ATMMachine::deposit(double amount) {
     if (amount > 0) {
         accountManager.getUser(currentUser).balance += amount;
-        cout << "Deposited " << amount << "\n Your balance is now: $" << accountManager.getUser(currentUser).balance << endl;
+        cout << "Deposited " << amount << "\nYour balance is now: $" << accountManager.getUser(currentUser).balance << endl;
     } else {
         cout << "Deposit amount must be above 0." << endl;
     }
@@ -121,7 +121,7 @@ void ATMMachine::withdraw(double amount) {
     if (amount > 0) {
         if (amount < accountManager.getUser(currentUser).balance) {
             accountManager.getUser(currentUser).balance -= amount;
-            cout << "Withdrew " << amount << "\n Your balance is now: $" << accountManager.getUser(currentUser).balance << endl;
+            cout << "Withdrew " << amount << "\nYour balance is now: $" << accountManager.getUser(currentUser).balance << endl;
         } else {
             cout << "Insufficient funds." << endl;
         }

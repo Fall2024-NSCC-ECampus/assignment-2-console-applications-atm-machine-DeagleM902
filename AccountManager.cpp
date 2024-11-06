@@ -15,7 +15,7 @@ AccountManager::AccountManager() {
 //Check if account number exists already
 bool AccountManager::createAccount(const string& id, const string& pin) {
     if (accounts.find(id) != accounts.end()) {
-        cerr << "User already exists." << endl;
+        cout << "User already exists." << endl;
         return false;
     }
     accounts[id] = User(pin, 0.0);
@@ -41,7 +41,7 @@ void AccountManager::saveAccounts() const {
         }
         outFile.close();
     } else {
-        cerr << "Error occurred while saving accounts." << endl;
+        cout << "Error occurred while saving accounts." << endl;
     }
 }
 
@@ -57,7 +57,7 @@ void AccountManager::loadAccounts() {
         }
         inFile.close();
     } else {
-        cerr << "Error occurred while loading accounts. Starting with empty list." << endl;
+        cout << "Error occurred while loading accounts. Starting with empty list." << endl;
     }
 }
 
